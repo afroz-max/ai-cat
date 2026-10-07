@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  html,
+  body {
+    height: 100%;
+    background-color: #05060f;
+    color: #e6e8f5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior: none;
+  }
+
+  body {
+    /* Prevent iOS rubber-banding while the canvas is being dragged. */
+    touch-action: manipulation;
+  }
+
+  /* Respect users who ask for less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Frosted glass card used across the HUD. */
+  .glass {
+    @apply rounded-3xl border border-white/10 bg-white/[0.06] shadow-2xl backdrop-blur-xl;
+  }
+
+  .glass-subtle {
+    @apply rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md;
+  }
+
+  /* Consistent, highly visible keyboard focus ring. */
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-glow-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-glow-cyan via-glow-violet to-glow-pink bg-clip-text text-transparent;
+  }
+
+  .bg-aurora {
+    background-image: radial-gradient(
+        60% 55% at 18% 12%,
+        rgba(167, 139, 250, 0.35) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        50% 45% at 85% 20%,
+        rgba(244, 114, 182, 0.28) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        70% 60% at 50% 95%,
+        rgba(103, 232, 249, 0.22) 0%,
+        transparent 65%
+      );
+  }
+
+  .scrollbar-slim {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+  }
+
+  .scrollbar-slim::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-slim::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.22);
+    border-radius: 9999px;
+  }
+
+  .scrollbar-slim::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* Respect the notches / rounded corners on mobile devices. */
+@supports (padding: max(0px)) {
+  .pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
